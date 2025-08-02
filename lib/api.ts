@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Note, NewNote, NoteResponse } from '@/types/note';
 
-const BASE_URL = 'https://notehub.app/api/notes';
+const BASE_URL = '/api/notes';
 const TOKEN = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN as string;
 
 const instance = axios.create({

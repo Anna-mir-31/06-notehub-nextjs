@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
-  },
+  "dev": "next dev",
+  "build": "next build",
+  "start": "next start"
+},
   "devDependencies": {
     "@types/node": "^24.1.0",
     "@types/react": "^19.1.8",

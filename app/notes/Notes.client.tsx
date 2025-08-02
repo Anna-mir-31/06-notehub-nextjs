@@ -5,9 +5,9 @@ import { fetchNotes } from '@/lib/api';
 import { Note } from '@/types/note';
 import NoteList from '@/components/NoteList/NoteList';
 import NoteForm from '@/components/NoteForm/NoteForm';
-import SearchBox from '@/components/SearchBox/SearchBox';
+import SearchBox from '../../components/SearchBox/SearchBox';
 import Loader from '@/components/Loader/Loader';
-import ErrorMessage from '@/components/ErrorMessage';
+import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 import css from './NotesPage.module.css';
 
 export default function Notes() {
