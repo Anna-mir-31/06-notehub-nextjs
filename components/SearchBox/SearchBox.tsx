@@ -1,4 +1,7 @@
-import { ChangeEvent } from 'react';
+// components/SearchBox/SearchBox.tsx
+'use client';
+
+import React from 'react';
 import css from './SearchBox.module.css';
 
 type Props = {
@@ -6,19 +9,15 @@ type Props = {
   onSearch: (value: string) => void;
 };
 
-export default function SearchBox({ value, onSearch }: Props) {
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    onSearch(e.target.value);
-  };
-
+const SearchBox: React.FC<Props> = ({ value, onSearch }) => {
   return (
     <input
       className={css.input}
-      type="text"
       placeholder="Search notes"
       value={value}
-      onChange={handleChange}
-      aria-label="Search notes"
+      onChange={(e) => onSearch(e.target.value)}
     />
   );
-}
+};
+
+export default SearchBox;

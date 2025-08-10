@@ -1,3 +1,6 @@
+// components/Pagination/Pagination.tsx
+'use client';
+
 import React from 'react';
 import css from './Pagination.module.css';
 
@@ -7,32 +10,26 @@ type Props = {
   onPageChange: (arg: { selected: number }) => void;
 };
 
-export default function Pagination({ pageCount, forcePage, onPageChange }: Props) {
-  if (pageCount <= 1) return null;
-
-  const goto = (idx: number) => () => onPageChange({ selected: idx });
+const Pagination: React.FC<Props> = ({ pageCount, forcePage, onPageChange }) => {
   const pages = Array.from({ length: pageCount }, (_, i) => i);
 
   return (
-    <ul className={css.pagination} aria-label="Pagination">
-      <li onClick={forcePage > 0 ? goto(forcePage - 1) : undefined}>
-        <a aria-label="Previous page">←</a>
-      </li>
-
-      {pages.map((i) => (
-        <li
-          key={i}
-          className={i === forcePage ? css.active : undefined}
-          onClick={goto(i)}
-          aria-current={i === forcePage ? 'page' : undefined}
-        >
-          <a>{i + 1}</a>
-        </li>
-      ))}
-
-      <li onClick={forcePage < pageCount - 1 ? goto(forcePage + 1) : undefined}>
-        <a aria-label="Next page">→</a>
-      </li>
+    <ul className={css.pagination}>
+      {pages.map((p) => {
+        const active = p === forcePage;
+        return (
+          <li
+            key={p}
+            className={active ? css.active : undefined}
+            onClick={() => onPageChange({ selected: p })}
+            aria-current={active ? 'page' : undefined}
+          >
+            <a>{p + 1}</a>
+          </li>
+        );
+      })}
     </ul>
   );
-}
+};
+
+export default Pagination;

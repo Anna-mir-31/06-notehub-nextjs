@@ -4,10 +4,12 @@ import { getQueryClient } from '@/lib/queryClient';
 import { fetchNoteById } from '@/lib/api';
 import NoteDetailsClient from './NoteDetails.client';
 
-type Params = { params: { id: string } };
+type PageProps = {
+  params: { id: string };        
+};
 
-export default async function NoteDetailsPage({ params }: Params) {
-  const id = Number(params.id);
+export default async function NoteDetailsPage({ params }: PageProps) {
+  const id = Number(params.id);   
   const qc = getQueryClient();
 
   await qc.prefetchQuery({
@@ -20,4 +22,10 @@ export default async function NoteDetailsPage({ params }: Params) {
       <NoteDetailsClient />
     </HydrationBoundary>
   );
+}
+
+
+import type { Metadata } from 'next';
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  return { title: `Note ${params.id}` };
 }

@@ -7,7 +7,7 @@ import css from './NoteDetails.module.css';
 
 export default function NoteDetailsClient() {
   const params = useParams<{ id: string }>();
-  const id = params.id; // <-- тепер лишаємо як string
+  const id = params.id; 
 
   const { data: note, isLoading, isError } = useQuery({
     queryKey: ['note', id],

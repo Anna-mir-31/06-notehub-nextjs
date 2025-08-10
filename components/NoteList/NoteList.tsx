@@ -2,6 +2,7 @@
 'use client';
 
 import Link from 'next/link';
+import React from 'react';
 import type { Note } from '@/types/note';
 import css from './NoteList.module.css';
 
@@ -11,27 +12,37 @@ type Props = {
 };
 
 const NoteList: React.FC<Props> = ({ notes, onDelete }) => {
+  if (!notes || notes.length === 0) {
+    return <p>No notes yet.</p>;
+  }
+
   return (
     <ul className={css.list}>
-      {notes.map((n) => (
-        <li key={n.id} className={css.listItem}>
-          <h3 className={css.title}>{n.title}</h3>
+      {notes.map((note) => (
+        <li key={note.id} className={css.listItem}>
+          <h3 className={css.title}>{note.title}</h3>
 
-          <p className={css.content}>{n.content}</p>
+          <p className={css.content}>{note.content}</p>
 
           <div className={css.footer}>
-            <span className={css.tag}>{n.tag}</span>
+            <span className={css.tag}>{note.tag}</span>
 
-            <div style={{ display: 'flex', gap: 8 }}>
-              <Link className={css.link} href={`/notes/${n.id}`}>
+            <div>
+              <Link
+                href={`/notes/${note.id}`}
+                className={css.link}
+                aria-label={`View details of ${note.title}`}
+              >
                 View details
               </Link>
 
+              {/* Red delete button */}
               <button
-                className={css.button}
                 type="button"
-                onClick={() => onDelete(n.id)}
-                aria-label={`Delete note ${n.title}`}
+                className={css.button}
+                onClick={() => onDelete(note.id)}
+                aria-label={`Delete ${note.title}`}
+                style={{ marginLeft: 8 }}
               >
                 Delete
               </button>
