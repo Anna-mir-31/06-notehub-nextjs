@@ -1,17 +1,33 @@
 'use client';
 
-import { Note } from '@/types/note';
-import styles from './NoteModal.module.css';
+import { PropsWithChildren, useEffect } from 'react';
+import css from './NoteModal.module.css';
 
-type Props = {
-  note: Note;
-};
+type Props = PropsWithChildren<{
+  onClose: () => void;
+}>;
 
-export default function NoteModal({ note }: Props) {
+export default function NoteModal({ onClose, children }: Props) {
+  useEffect(() => {
+    const onEsc = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
+    window.addEventListener('keydown', onEsc);
+    // блокування скролу під модалкою
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      window.removeEventListener('keydown', onEsc);
+      document.body.style.overflow = prev;
+    };
+  }, [onClose]);
+
+  const onBackdrop = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) onClose();
+  };
+
   return (
-    <div className={styles.modal}>
-      <h2>{note.title}</h2>
-      <p>{note.content}</p>
+    <div className={css.backdrop} onClick={onBackdrop} role="dialog" aria-modal="true">
+      <div className={css.modal}>{children}</div>
     </div>
   );
 }

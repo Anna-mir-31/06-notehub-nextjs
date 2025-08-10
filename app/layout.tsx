@@ -1,23 +1,24 @@
+// app/layout.tsx
 import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
-import type { Metadata } from 'next';
+import Header from '@/components/Header/Header';
+import Footer from '@/components/Footer/Footer';
 import './globals.css';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'NoteHub',
-  description: 'Multi-page app with notes',
+  description: 'NoteHub on Next.js',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <header>
-          {/* Тут ваш хедер */}
-        </header>
-        <TanStackProvider>{children}</TanStackProvider>
-        <footer>
-          {/* Тут ваш футер */}
-        </footer>
+        <TanStackProvider>
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </TanStackProvider>
       </body>
     </html>
   );

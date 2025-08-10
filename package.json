@@ -2,12 +2,11 @@
   "name": "05-notehub",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
-  "dev": "next dev",
-  "build": "next build",
-  "start": "next start"
-},
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
   "devDependencies": {
     "@types/node": "^24.1.0",
     "@types/react": "^19.1.8",
@@ -25,6 +24,7 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-paginate": "^8.3.0",
+    "react-toastify": "^11.0.5",
     "use-debounce": "^10.0.5",
     "yup": "^1.6.1"
   }

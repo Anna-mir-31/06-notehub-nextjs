@@ -1,7 +1,62 @@
-/*!***********************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/NoteItem/NoteItem.module.css ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************/
+/*!*************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/SearchBox/SearchBox.module.css ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************/
+.SearchBox_input__0g6b5 {
+    flex: 1 1;
+    max-width: 240px;
+    padding: 6px 12px;
+    font-size: 16px;
+    border: 1px solid #ced4da;
+    border-radius: 4px; }
+/*!***************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/Pagination/Pagination.module.css ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************/
+.Pagination_pagination__O7JWM {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin: 16px 0;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
 
+.Pagination_pagination__O7JWM li {
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    cursor: pointer;
+    min-width: 36px;
+    height: 36px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.Pagination_pagination__O7JWM li a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: #0d6efd;
+    font-size: 14px;
+}
+
+.Pagination_pagination__O7JWM li:hover {
+    background-color: #e9ecef;
+}
+
+.Pagination_pagination__O7JWM li.Pagination_active__awQnD:hover {
+    background-color: #0d6efd;
+}
+
+.Pagination_active__awQnD {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.Pagination_active__awQnD a {
+    color: #fff !important;
+    font-weight: 500; }
 /*!***********************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/NoteList/NoteList.module.css ***!
   \***********************************************************************************************************************************************************************************************************************************************************************************/
@@ -41,10 +96,10 @@
     color: #495057;
     margin-bottom: 12px;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+        -webkit-line-clamp: 3;
+        line-clamp: 3;
+     -webkit-box-orient: vertical;
+ overflow: hidden;
 }
 
 .NoteList_button__J1AiO {
@@ -100,7 +155,8 @@
 }
 
 .NoteList_link__Q73wC:hover {
-    background-color: #0b5ed7; }
+    background-color: #0b5ed7; 
+    }
 /*!***********************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/NoteForm/NoteForm.module.css ***!
   \***********************************************************************************************************************************************************************************************************************************************************************************/
@@ -175,28 +231,68 @@
     font-size: 12px;
     margin-top: 4px; }
 /*!*************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/SearchBox/SearchBox.module.css ***!
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/NoteModal/NoteModal.module.css ***!
   \*************************************************************************************************************************************************************************************************************************************************************************************/
-.SearchBox_input__0g6b5 {
-    flex: 1 1;
-    max-width: 240px;
-    padding: 6px 12px;
-    font-size: 16px;
-    border: 1px solid #ced4da;
-    border-radius: 4px; }
-/*!*******************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/Loader/Loader.module.css ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************/
-.Loader_loader__P7_5y {
-    font-weight: bold;
-    color: #555;
-    text-align: center;
-    padding: 1rem;
+.NoteModal_backdrop__17i7x {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(33, 37, 41, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
 }
-/*!**************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./app/notes/NotesPage.module.css ***!
-  \**************************************************************************************************************************************************************************************************************************************************************************/
-.NotesPage_app__UkSJw {
+
+.NoteModal_modal__WMyq1 {
+    background-color: #ffffff;
+    padding: 24px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 100%;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); }
+/*!**********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./app/notes/Notes.module.css ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************/
+.Notes_app__aTXMH {
+  width: 90%;
+  max-width: 1280px;
+  margin: 0px auto;
+  padding: 0 16px 16px;
+  flex: 1 1;
+}
+
+.Notes_toolbar__vxiBS {
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.Notes_button__E1JoO {
+  padding: 6px 12px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #0d6efd;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.Notes_button__E1JoO:hover {
+  background-color: #0b5ed7;
+}
+/*!***********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./styles/NotesPage.module.css ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************/
+.NotesPage_app__B6X7m {
     width: 90%;
     max-width: 1280px;
     margin: 0px auto;
@@ -204,7 +300,7 @@
     flex: 1 1;
 }
 
-.NotesPage_toolbar__M7vho {
+.NotesPage_toolbar__9NMCI {
     margin-bottom: 16px;
     display: flex;
     justify-content: space-between;
@@ -214,7 +310,7 @@
     border-bottom: 1px solid #dee2e6;
 }
 
-.NotesPage_button__lzTbK {
+.NotesPage_button__ayy9p {
     padding: 6px 12px;
     font-size: 16px;
     color: #fff;
@@ -225,5 +321,5 @@
     transition: background-color 0.2s ease;
 }
 
-.NotesPage_button__lzTbK:hover {
+.NotesPage_button__ayy9p:hover {
     background-color: #0b5ed7; }

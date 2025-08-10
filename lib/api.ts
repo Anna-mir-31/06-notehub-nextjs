@@ -1,37 +1,37 @@
 import axios from 'axios';
-import { Note, NewNote, NoteResponse } from '@/types/note';
+import type { Note, NoteTag } from '@/types/note';
 
-const BASE_URL = '/api/notes';
-const TOKEN = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN as string;
+axios.defaults.baseURL =
+  process.env.NEXT_PUBLIC_API_URL || 'https://notehub-public.goit.study/api';
 
-const instance = axios.create({
-  baseURL: BASE_URL,
-  headers: {
-    Authorization: `Bearer ${TOKEN}`,
-    'Content-Type': 'application/json',
-  },
-});
+axios.defaults.headers.common.Authorization = `Bearer ${
+  process.env.NEXT_PUBLIC_NOTEHUB_TOKEN || ''
+}`;
 
-export const fetchNotes = async (): Promise<Note[]> => {
-  const { data } = await instance.get<NoteResponse>('/');
-  return data.notes;
-};
+export type NewNoteData = { title: string; content: string; tag: NoteTag };
+export type ListOk = { notes?: Note[]; results?: Note[]; totalPages: number };
 
-export const fetchNoteById = async (id: number): Promise<Note> => {
-  const { data } = await instance.get<Note>(`/${id}`);
+export async function fetchNotes(
+  search = '',
+  page = 1,
+  perPage = 12
+): Promise<ListOk> {
+  const params: Record<string, string | number> = { page, perPage };
+  if (search && search.trim()) params.search = search.trim();
+  const { data } = await axios.get<ListOk>('/notes', { params });
   return data;
-};
+}
 
-export const addNote = async (note: NewNote): Promise<Note> => {
-  const { data } = await instance.post<Note>('/', note);
+export async function fetchNoteById(id: string | number): Promise<Note> {
+  const { data } = await axios.get<Note>(`/notes/${id}`);
   return data;
-};
+}
 
-export const deleteNote = async (id: number): Promise<void> => {
-  await instance.delete(`/${id}`);
-};
+export async function createNote(payload: NewNoteData): Promise<Note> {
+  const { data } = await axios.post<Note>('/notes', payload);
+  return data;
+}
 
-export const searchNotes = async (query: string): Promise<Note[]> => {
-  const { data } = await instance.get<NoteResponse>(`/search?query=${query}`);
-  return data.notes;
-};
+export async function deleteNote(id: string | number): Promise<void> {
+  await axios.delete(`/notes/${id}`);
+}

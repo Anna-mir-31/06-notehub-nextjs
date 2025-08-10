@@ -1,15 +1,14 @@
-'use client';
 import Link from 'next/link';
-import css from './Header.module.css';
+import styles from './Header.module.css';
 
 export default function Header() {
   return (
-    <header className={css.header}>
+    <header className={styles.header}>
       <Link href="/" aria-label="Home">
         NoteHub
       </Link>
       <nav aria-label="Main Navigation">
-        <ul className={css.navigation}>
+        <ul className={styles.navigation}>
           <li>
             <Link href="/">Home</Link>
           </li>

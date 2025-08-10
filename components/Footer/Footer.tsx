@@ -1,17 +1,20 @@
-'use client';
-import css from './Footer.module.css';
+// components/Footer.tsx
+import React from "react";
+import styles from "./Footer.module.css";
 
-export default function Footer() {
+const Footer: React.FC = () => {
   return (
-    <footer className={css.footer}>
+    <footer className={styles.footer}>
       <p>© {new Date().getFullYear()} NoteHub. All rights reserved.</p>
-      <div className={css.wrap}>
-        <p>Developer: your name</p>
-        <p>
-          Contact us:
+      <div className={styles.wrap}>
+        <span>Developer: Anna Chernobrovenko</span>
+        <span>
+          Contact us: {" "}
           <a href="mailto:student@notehub.app">student@notehub.app</a>
-        </p>
+        </span>
       </div>
     </footer>
   );
-}
+};
+
+export default Footer;
