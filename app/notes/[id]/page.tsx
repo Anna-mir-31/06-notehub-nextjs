@@ -1,23 +1,21 @@
-// app/notes/[id]/page.tsx
-import { QueryClient, dehydrate, HydrationBoundary } from '@tanstack/react-query';
-import { fetchNoteById } from '@/lib/api';
-import NoteDetailsClient from './NoteDetails.client';
+import { fetchNoteById } from "../../../lib/api";
+import {
+  QueryClient,
+  HydrationBoundary,
+  dehydrate,
+} from "@tanstack/react-query";
+import NoteDetailsClient from "./NoteDetails.client";
 
-type RouteParams = { id: string };
-type RouteSearchParams = { [key: string]: string | string[] | undefined };
+type Props = {
+  params: { id: string }; // було Promise<{ id: string }>
+};
 
-export default async function NotePage({
-  params,
-  searchParams,
-}: {
-  params: RouteParams;
-  searchParams?: RouteSearchParams;
-}) {
+const NoteDetails = async ({ params: { id } }: Props) => {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ['note', params.id],
-    queryFn: () => fetchNoteById(params.id),
+    queryKey: ["note", id],
+    queryFn: () => fetchNoteById(id),
   });
 
   return (
@@ -25,14 +23,6 @@ export default async function NotePage({
       <NoteDetailsClient />
     </HydrationBoundary>
   );
-}
+};
 
-export async function generateMetadata(
-  { params }: { params: RouteParams }
-) {
-  // ...existing code...
-}
-
-export async function generateStaticParams(): Promise<RouteParams[]> {
-  // ...existing code that returns like: [{ id: "1" }, { id: "2" }]
-}
+export default NoteDetails;
