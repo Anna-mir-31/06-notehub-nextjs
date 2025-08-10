@@ -3,34 +3,46 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { fetchNoteById } from '@/lib/api';
+import type { Note } from '@/types/note';
 import css from './NoteDetails.module.css';
 
-export default function NoteDetailsClient() {
-  const params = useParams<{ id: string }>();
-  const id = params.id; 
+type Props = { note?: Note | null };
 
-  const { data: note, isLoading, isError } = useQuery({
+export default function NoteDetailsClient({ note }: Props) {
+  const params = useParams<{ id: string }>();
+  const id = Number(params.id);
+
+  const {
+    data: fetchedNote,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ['note', id],
     queryFn: () => fetchNoteById(id),
-    enabled: Boolean(id),
+    enabled: Number.isFinite(id),
+    // якщо робиш SSR prefetch — підкладаємо як initialData
+    initialData: note ?? undefined,
   });
 
+  const current = fetchedNote ?? note;
+
   if (isLoading) return <p>Loading, please wait...</p>;
-  if (isError || !note) return <p>Something went wrong.</p>;
+  if (isError || !current) return <p>Something went wrong.</p>;
+
+  const created =
+    (current as any).createdAt
+      ? new Date((current as any).createdAt).toLocaleString()
+      : '';
 
   return (
     <div className={css.container}>
       <div className={css.item}>
         <div className={css.header}>
-          <h2>{note.title}</h2>
-          {note.tag && <span className={css.tag}>{note.tag}</span>}
+          <h2>{current.title}</h2>
+          {current.tag && <span className={css.tag}>{current.tag}</span>}
         </div>
-        <p className={css.content}>{note.content}</p>
-        <p className={css.date}>
-          {note.createdAt
-            ? new Date(note.createdAt).toLocaleString()
-            : 'No date'}
-        </p>
+        <p className={css.content}>{current.content}</p>
+        {created && <p className={css.date}>{created}</p>}
       </div>
     </div>
   );
