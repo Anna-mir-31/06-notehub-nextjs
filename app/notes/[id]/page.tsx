@@ -3,11 +3,15 @@ import { QueryClient, dehydrate, HydrationBoundary } from '@tanstack/react-query
 import { fetchNoteById } from '@/lib/api';
 import NoteDetailsClient from './NoteDetails.client';
 
-export default async function Page({
+type RouteParams = { id: string };
+type RouteSearchParams = { [key: string]: string | string[] | undefined };
+
+export default async function NotePage({
   params,
+  searchParams,
 }: {
-  params: { id: string };
- 
+  params: RouteParams;
+  searchParams?: RouteSearchParams;
 }) {
   const queryClient = new QueryClient();
 
@@ -21,4 +25,14 @@ export default async function Page({
       <NoteDetailsClient />
     </HydrationBoundary>
   );
+}
+
+export async function generateMetadata(
+  { params }: { params: RouteParams }
+) {
+  // ...existing code...
+}
+
+export async function generateStaticParams(): Promise<RouteParams[]> {
+  // ...existing code that returns like: [{ id: "1" }, { id: "2" }]
 }
