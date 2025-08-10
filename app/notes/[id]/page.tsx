@@ -1,5 +1,5 @@
 import { fetchNoteById } from "@/lib/api";
-import NoteDetailsClient from "./NoteDetails.client"; // без alias і дужок у шляху безпечніше для TS
+import NoteDetailsClient from "./NoteDetails.client"; 
 import { Note } from "@/types/note";
 
 type Params = { id: string };
