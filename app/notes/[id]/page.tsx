@@ -1,14 +1,10 @@
-import { fetchNoteById } from "@/lib/api";
-import NoteDetailsClient from "./NoteDetails.client"; 
-import { Note } from "@/types/note";
+interface NoteDetailsProps {
+  params: Promise<{ id: string }>;
+}
 
-type Params = { id: string };
+export default async function NoteDetails({ params }: NoteDetailsProps) {
+  const { id } = await params;
 
-export default async function NoteDetailsPage({
-  params,
-}: {
-  params: Params;
-}) {
-  const note: Note = await fetchNoteById(params.id);
-  return <NoteDetailsClient note={note} />;
+  // тут твоя логіка
+  return <div>Note ID: {id}</div>;
 }
