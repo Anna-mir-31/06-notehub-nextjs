@@ -1,11 +1,12 @@
 // types/note.ts
-export type NoteTag = 'Work' | 'Personal' | 'Shopping' | 'Todo';
+export type NoteTag = 'Todo' | 'Work' | 'Personal' | 'Shopping' | string;
 
 export interface Note {
-  id: number;
+  id: string;        
   title: string;
   content: string;
   tag: NoteTag;
-  createdAt: string;     
-  date?: string;
+
+  createdAt: string;
+  updatedAt: string;
 }
