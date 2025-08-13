@@ -5,7 +5,6 @@ interface NoteDetailsProps {
 export default async function NoteDetails({ params }: NoteDetailsProps) {
   const { id } = await params;
 
-  const note: Note = await fetchNoteById(id);
-
-  return <NoteDetailsClient note={note} />;
+  
+  return <div>Note ID: {id}</div>;
 }
