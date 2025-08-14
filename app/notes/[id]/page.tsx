@@ -4,13 +4,12 @@ import { fetchNoteById } from '@/lib/api';
 import type { Note } from '@/types/note';
 
 type PageProps = {
-  params: { id: string }; 
+  params: Promise<{ id: string }>;
 };
 
 export default async function NoteDetailsPage({ params }: PageProps) {
-  const { id } = params;
+  const { id } = await params;
 
-  
   try {
     const note: Note = await fetchNoteById(id);
     return (
