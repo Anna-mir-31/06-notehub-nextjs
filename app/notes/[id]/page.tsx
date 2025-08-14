@@ -1,16 +1,15 @@
-// app/notes/[id]/page.tsx
 import { notFound } from 'next/navigation';
 import { fetchNoteById } from '@/lib/api';
 import type { Note } from '@/types/note';
 
-type PageProps = {
+type Props = {
   params: Promise<{ id: string }>;
 };
 
-export default async function NoteDetailsPage({ params }: PageProps) {
+export default async function NoteDetailsPage({ params }: Props) {
   const { id } = await params;
 
-  try {
+ 
     const note: Note = await fetchNoteById(id);
     return (
       <div style={{ padding: 24 }}>
@@ -19,8 +18,5 @@ export default async function NoteDetailsPage({ params }: PageProps) {
         <p><strong>Tag:</strong> {note.tag}</p>
       </div>
     );
-  } catch (e: any) {
-    if (e?.response?.status === 404) notFound();
-    throw e;
-  }
+  
 }
