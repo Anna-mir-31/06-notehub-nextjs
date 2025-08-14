@@ -7,14 +7,14 @@ import NotesClient from './Notes.client';
 export default async function NotesPage() {
   const qc = getQueryClient();
 
-  // НЕ даємо помилці завалити маршрут
+  
   try {
     await qc.prefetchQuery({
       queryKey: ['notes', 1, ''],
       queryFn: () => fetchNotes('', 1, 12),
     });
   } catch {
-    // просто ігноруємо — клієнт сам підвантажить і покаже помилку, якщо треба
+    
   }
 
   return (
