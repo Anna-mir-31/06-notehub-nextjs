@@ -1,34 +1,20 @@
 // app/notes/[id]/page.tsx
 import { notFound } from 'next/navigation';
 import { fetchNoteById } from '@/lib/api';
-import type { Note } from '@/types/note';
 import type { Metadata } from 'next';
-
-// ...existing code...
+import NoteDetailsClient from './NoteDetails.client';
 
 interface PageProps {
   params: Promise<{ id: string }>;
 }
 
-// ...existing code...
-
 export default async function NoteDetailsPage({ params }: PageProps) {
   const { id } = await params;
 
   try {
-    const note: Note = await fetchNoteById(id);
+    await fetchNoteById(id); // ensure 404 is handled, avoid unused var
 
-    return (
-      <main style={{ padding: 24 }}>
-        <h1 style={{ margin: '0 0 12px' }}>{note.title}</h1>
-        <p style={{ whiteSpace: 'pre-wrap', margin: '0 0 12px' }}>
-          {note.content}
-        </p>
-        <div style={{ fontSize: 14, color: '#495057' }}>
-          <b>Tag:</b> {note.tag}
-        </div>
-      </main>
-    );
+    return <NoteDetailsClient id={id} />;
   } catch (e: any) {
     if (e?.response?.status === 404) notFound();
     throw e;
