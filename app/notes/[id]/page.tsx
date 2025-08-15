@@ -5,15 +5,14 @@ import type { Metadata } from 'next';
 import NoteDetailsClient from './NoteDetails.client';
 
 interface PageProps {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string }>; // changed: params тепер Promise
 }
 
 export default async function NoteDetailsPage({ params }: PageProps) {
-  const { id } = await params;
+  const { id } = await params; // changed: додано await
 
   try {
-    await fetchNoteById(id); // ensure 404 is handled, avoid unused var
-
+    await fetchNoteById(id);
     return <NoteDetailsClient id={id} />;
   } catch (e: any) {
     if (e?.response?.status === 404) notFound();
@@ -22,7 +21,7 @@ export default async function NoteDetailsPage({ params }: PageProps) {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { id } = await params;
+  const { id } = await params; // changed: додано await
 
   try {
     const note = await fetchNoteById(id);
