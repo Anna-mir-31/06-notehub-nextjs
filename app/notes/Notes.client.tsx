@@ -10,7 +10,7 @@ import SearchBox from '@/components/SearchBox/SearchBox';
 import Pagination from '@/components/Pagination/Pagination';
 import NoteList from '@/components/NoteList/NoteList';
 import NoteForm from '@/components/NoteForm/NoteForm';
-import NoteModal from '@/components/NoteModal/NoteModal';
+import Modal from '@/components/Modal/Modal';
 
 import css from './Notes.module.css';
 
@@ -33,7 +33,7 @@ export default function NotesClient() {
   const totalPages = data?.totalPages ?? 1;
 
   const { mutate: removeNote } = useMutation<void, Error, string>({
-    mutationFn: deleteNote, // приймає рядковий id
+    mutationFn: deleteNote, 
     onSuccess: () => qc.invalidateQueries({ queryKey: ['notes'] }),
   });
 
@@ -76,9 +76,9 @@ export default function NotesClient() {
       )}
 
       {isModalOpen && (
-        <NoteModal onClose={() => setIsModalOpen(false)}>
+        <Modal onClose={() => setIsModalOpen(false)}>
           <NoteForm onClose={() => setIsModalOpen(false)} />
-        </NoteModal>
+        </Modal>
       )}
     </div>
   );
