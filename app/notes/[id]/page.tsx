@@ -2,22 +2,18 @@
 import { notFound } from 'next/navigation';
 import { fetchNoteById } from '@/lib/api';
 import type { Note } from '@/types/note';
+import type { Metadata } from 'next';
 
-
-type Awaitable<T> = T | Promise<T>;
+// ...existing code...
 
 interface PageProps {
-  params: Awaitable<{ id: string }>;
+  params: Promise<{ id: string }>;
 }
 
-
-async function normalizeParams<T>(maybePromise: Awaitable<T>): Promise<T> {
-  return Promise.resolve(maybePromise);
-}
+// ...existing code...
 
 export default async function NoteDetailsPage({ params }: PageProps) {
-  
-  const { id } = await normalizeParams(params);
+  const { id } = await params;
 
   try {
     const note: Note = await fetchNoteById(id);
@@ -28,22 +24,19 @@ export default async function NoteDetailsPage({ params }: PageProps) {
         <p style={{ whiteSpace: 'pre-wrap', margin: '0 0 12px' }}>
           {note.content}
         </p>
-
         <div style={{ fontSize: 14, color: '#495057' }}>
           <b>Tag:</b> {note.tag}
         </div>
       </main>
     );
   } catch (e: any) {
-    // Якщо API повертає 404 — віддаємо стандартну 404 сторінку
     if (e?.response?.status === 404) notFound();
     throw e;
   }
 }
 
-
-export async function generateMetadata({ params }: PageProps) {
-  const { id } = await normalizeParams(params);
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { id } = await params;
 
   try {
     const note = await fetchNoteById(id);
