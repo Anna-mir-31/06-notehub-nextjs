@@ -32,12 +32,12 @@ export default function NotesClient() {
   const notes: Note[] = (data?.results ?? data?.notes ?? []) as Note[];
   const totalPages = data?.totalPages ?? 1;
 
-  const { mutate: removeNote } = useMutation({
-    mutationFn: (id: string) => deleteNote(id),
+  const { mutate: removeNote } = useMutation<void, Error, string>({
+    mutationFn: deleteNote, // приймає рядковий id
     onSuccess: () => qc.invalidateQueries({ queryKey: ['notes'] }),
   });
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = (id: string) => {
     removeNote(id);
   };
 
