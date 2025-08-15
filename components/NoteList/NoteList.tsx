@@ -40,7 +40,7 @@ const NoteList: React.FC<Props> = ({ notes, onDelete }) => {
               <button
                 type="button"
                 className={css.button}
-                onClick={() => onDelete(note.id)}
+                onClick={() => onDelete(String(note.id))}
                 aria-label={`Delete ${note.title}`}
                 style={{ marginLeft: 8 }}
               >
