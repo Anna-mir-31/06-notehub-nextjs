@@ -33,9 +33,13 @@ export default function NotesClient() {
   const totalPages = data?.totalPages ?? 1;
 
   const { mutate: removeNote } = useMutation({
-    mutationFn: (id: number) => deleteNote(String(id)),
+    mutationFn: (id: string) => deleteNote(id),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['notes'] }),
   });
+
+  const handleDelete = async (id: string) => {
+    removeNote(id);
+  };
 
   if (isLoading) return <p className={css.loading}>Loading, please wait...</p>;
   if (isError)
@@ -66,7 +70,7 @@ export default function NotesClient() {
       </header>
 
       {notes.length > 0 ? (
-        <NoteList notes={notes} onDelete={(id) => removeNote(id)} />
+        <NoteList notes={notes} onDelete={handleDelete} />
       ) : (
         <p>No notes yet.</p>
       )}

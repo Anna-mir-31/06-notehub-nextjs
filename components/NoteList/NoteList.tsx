@@ -8,7 +8,7 @@ import css from './NoteList.module.css';
 
 type Props = {
   notes: Note[];
-  onDelete: (id: number) => void;
+  onDelete: (id: string) => void | Promise<void>; // було number
 };
 
 const NoteList: React.FC<Props> = ({ notes, onDelete }) => {
