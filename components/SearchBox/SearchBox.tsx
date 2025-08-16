@@ -4,12 +4,12 @@
 import React from 'react';
 import css from './SearchBox.module.css';
 
-type Props = {
+interface SearchBoxProps {
   value: string;
   onSearch: (value: string) => void;
-};
+}
 
-const SearchBox: React.FC<Props> = ({ value, onSearch }) => {
+const SearchBox: React.FC<SearchBoxProps> = ({ value, onSearch }) => {
   return (
     <input
       className={css.input}

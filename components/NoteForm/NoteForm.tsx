@@ -1,120 +1,130 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 import { createNote } from '@/lib/api';
 import type { NoteTag } from '@/types/note';
 import css from './NoteForm.module.css';
 
-type Props = {
+interface NoteFormProps {
   onClose: () => void;
-};
+}
 
-const TAGS: NoteTag[] = ['Todo', 'Work', 'Personal', 'Shopping'];
+const TAGS: NoteTag[] = ['Todo', 'Work', 'Personal', 'Shopping', 'Meeting'];
 
-export default function NoteForm({ onClose }: Props) {
+const validationSchema = Yup.object({
+  title: Yup.string()
+    .trim()
+    .required('Title is required'),
+  content: Yup.string()
+    .trim()
+    .required('Content is required'),
+  tag: Yup.string()
+    .oneOf(TAGS, 'Invalid tag')
+    .required('Tag is required'),
+});
+
+interface FormValues {
+  title: string;
+  content: string;
+  tag: NoteTag;
+}
+
+export default function NoteForm({ onClose }: NoteFormProps) {
   const qc = useQueryClient();
 
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [tag, setTag] = useState<NoteTag>('Todo');
-
-  const [titleErr, setTitleErr] = useState('');
-  const [contentErr, setContentErr] = useState('');
-
   const { mutate, isPending, error } = useMutation({
-    mutationFn: () => createNote({ title: title.trim(), content: content.trim(), tag }),
+    mutationFn: (values: FormValues) => createNote({ 
+      title: values.title.trim(), 
+      content: values.content.trim(), 
+      tag: values.tag 
+    }),
     onSuccess: () => {
-      // оновлюємо список нотаток і закриваємо модалку
       qc.invalidateQueries({ queryKey: ['notes'] });
       onClose();
     },
   });
 
-  const onSubmit = (e: FormEvent) => {
-    e.preventDefault();
-
-    let valid = true;
-    if (!title.trim()) {
-      setTitleErr('Title is required');
-      valid = false;
-    } else setTitleErr('');
-
-    if (!content.trim()) {
-      setContentErr('Content is required');
-      valid = false;
-    } else setContentErr('');
-
-    if (!valid) return;
-
-    mutate();
+  const initialValues: FormValues = {
+    title: '',
+    content: '',
+    tag: 'Todo',
   };
 
   return (
-    <form className={css.form} onSubmit={onSubmit}>
-      <div className={css.formGroup}>
-        <label htmlFor="title">Title</label>
-        <input
-          id="title"
-          className={css.input}
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          disabled={isPending}
-        />
-        {titleErr && <span className={css.error}>{titleErr}</span>}
-      </div>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={(values) => mutate(values)}
+    >
+      {() => (
+        <Form className={css.form}>
+          <div className={css.formGroup}>
+            <label htmlFor="title">Title</label>
+            <Field
+              id="title"
+              name="title"
+              className={css.input}
+              type="text"
+              disabled={isPending}
+            />
+            <ErrorMessage name="title" component="span" className={css.error} />
+          </div>
 
-      <div className={css.formGroup}>
-        <label htmlFor="content">Content</label>
-        <textarea
-          id="content"
-          className={css.textarea}
-          rows={6}
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          disabled={isPending}
-        />
-        {contentErr && <span className={css.error}>{contentErr}</span>}
-      </div>
+          <div className={css.formGroup}>
+            <label htmlFor="content">Content</label>
+            <Field
+              id="content"
+              name="content"
+              as="textarea"
+              className={css.textarea}
+              rows={6}
+              disabled={isPending}
+            />
+            <ErrorMessage name="content" component="span" className={css.error} />
+          </div>
 
-      <div className={css.formGroup}>
-        <label htmlFor="tag">Tag</label>
-        <select
-          id="tag"
-          className={css.select}
-          value={tag}
-          onChange={(e) => setTag(e.target.value as NoteTag)}
-          disabled={isPending}
-        >
-          {TAGS.map((t) => (
-            <option key={t} value={t}>
-              {t}
-            </option>
-          ))}
-        </select>
-      </div>
+          <div className={css.formGroup}>
+            <label htmlFor="tag">Tag</label>
+            <Field
+              id="tag"
+              name="tag"
+              as="select"
+              className={css.select}
+              disabled={isPending}
+            >
+              {TAGS.map((t) => (
+                <option key={t} value={t}>
+                  {t}
+                </option>
+              ))}
+            </Field>
+            <ErrorMessage name="tag" component="span" className={css.error} />
+          </div>
 
-      <div className={css.actions}>
-        <button
-          type="button"
-          className={css.cancelButton}
-          onClick={onClose}
-          disabled={isPending}
-        >
-          Cancel
-        </button>
-        
-        <button type="submit" className={css.submitButton} disabled={isPending}>
-          {isPending ? 'Creating…' : 'Create note'}
-        </button>
-      </div>
+          <div className={css.actions}>
+            <button
+              type="button"
+              className={css.cancelButton}
+              onClick={onClose}
+              disabled={isPending}
+            >
+              Cancel
+            </button>
+            
+            <button type="submit" className={css.submitButton} disabled={isPending}>
+              {isPending ? 'Creating…' : 'Create note'}
+            </button>
+          </div>
 
-      {error && (
-        <p className={css.error} role="alert">
-          {(error as Error).message || 'Something went wrong'}
-        </p>
+          {error && (
+            <p className={css.error} role="alert">
+              {(error as Error).message || 'Something went wrong'}
+            </p>
+          )}
+        </Form>
       )}
-    </form>
+    </Formik>
   );
 }

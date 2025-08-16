@@ -32,6 +32,7 @@ export async function createNote(payload: NewNoteData): Promise<Note> {
   return data;
 }
 
-export async function deleteNote(id: string | number): Promise<void> {
-  await axios.delete(`/notes/${id}`);
+export async function deleteNote(id: string | number): Promise<Note> {
+  const { data } = await axios.delete<Note>(`/notes/${id}`);
+  return data;
 }

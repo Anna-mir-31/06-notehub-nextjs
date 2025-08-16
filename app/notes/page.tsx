@@ -7,8 +7,9 @@ import NotesClient from './Notes.client';
 export default async function NotesPage() {
   const qc = getQueryClient();
 
-  
+  let initialData;
   try {
+    initialData = await fetchNotes('', 1, 12);
     await qc.prefetchQuery({
       queryKey: ['notes', 1, ''],
       queryFn: () => fetchNotes('', 1, 12),
@@ -19,7 +20,7 @@ export default async function NotesPage() {
 
   return (
     <HydrationBoundary state={dehydrate(qc)}>
-      <NotesClient />
+      <NotesClient initialData={initialData} />
     </HydrationBoundary>
   );
 }

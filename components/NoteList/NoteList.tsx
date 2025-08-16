@@ -3,15 +3,27 @@
 
 import Link from 'next/link';
 import React from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { deleteNote } from '@/lib/api';
 import type { Note } from '@/types/note';
 import css from './NoteList.module.css';
 
-type Props = {
+interface NoteListProps {
   notes: Note[];
-  onDelete: (id: string) => void | Promise<void>; // було number
-};
+}
 
-const NoteList: React.FC<Props> = ({ notes, onDelete }) => {
+const NoteList: React.FC<NoteListProps> = ({ notes }) => {
+  const qc = useQueryClient();
+
+  const { mutate: removeNote } = useMutation<Note, Error, string>({
+    mutationFn: deleteNote,
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['notes'] }),
+  });
+
+  const handleDelete = (id: string) => {
+    removeNote(id);
+  };
+
   if (!notes || notes.length === 0) {
     return <p>No notes yet.</p>;
   }
@@ -36,11 +48,10 @@ const NoteList: React.FC<Props> = ({ notes, onDelete }) => {
                 View details
               </Link>
 
-              {/* Red delete button */}
               <button
                 type="button"
                 className={css.button}
-                onClick={() => onDelete(String(note.id))}
+                onClick={() => handleDelete(String(note.id))}
                 aria-label={`Delete ${note.title}`}
                 style={{ marginLeft: 8 }}
               >

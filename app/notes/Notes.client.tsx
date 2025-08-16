@@ -1,7 +1,7 @@
 // app/notes/Notes.client.tsx
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { fetchNotes, deleteNote } from '@/lib/api';
 import type { Note } from '@/types/note';
@@ -16,23 +16,43 @@ import css from './Notes.module.css';
 
 type ListData = { results?: Note[]; notes?: Note[]; totalPages?: number };
 
-export default function NotesClient() {
+interface NotesClientProps {
+  initialData?: ListData;
+}
+
+export default function NotesClient({ initialData }: NotesClientProps) {
   const qc = useQueryClient();
 
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // Debounce search input
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 500);
+    return () => clearTimeout(timeoutId);
+  }, [search]);
+
+  // Reset page when search changes
+  useEffect(() => {
+    setPage(1);
+  }, [debouncedSearch]);
+
   const { data, isLoading, isError, error } = useQuery<ListData>({
-    queryKey: ['notes', page, search],
-    queryFn: () => fetchNotes(search, page, 12),
+    queryKey: ['notes', page, debouncedSearch],
+    queryFn: () => fetchNotes(debouncedSearch, page, 12),
     staleTime: 15_000,
+    initialData: page === 1 && !debouncedSearch ? initialData : undefined,
+    placeholderData: (previousData) => previousData,
   });
 
   const notes: Note[] = (data?.results ?? data?.notes ?? []) as Note[];
   const totalPages = data?.totalPages ?? 1;
 
-  const { mutate: removeNote } = useMutation<void, Error, string>({
+  const { mutate: removeNote } = useMutation<Note, Error, string>({
     mutationFn: deleteNote, 
     onSuccess: () => qc.invalidateQueries({ queryKey: ['notes'] }),
   });
@@ -70,7 +90,7 @@ export default function NotesClient() {
       </header>
 
       {notes.length > 0 ? (
-        <NoteList notes={notes} onDelete={handleDelete} />
+        <NoteList notes={notes} />
       ) : (
         <p>No notes yet.</p>
       )}

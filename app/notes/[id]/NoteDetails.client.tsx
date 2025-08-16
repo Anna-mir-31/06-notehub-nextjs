@@ -13,6 +13,7 @@ export default function NoteDetailsClient({ id }: Props) {
     enabled: !!id,
     retry: false,
     staleTime: 60_000,
+    refetchOnMount: false,
   });
 
   if (isLoading) return <p>Loading…</p>;

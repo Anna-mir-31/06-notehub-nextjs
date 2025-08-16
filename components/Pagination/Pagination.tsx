@@ -2,63 +2,38 @@
 'use client';
 
 import React from 'react';
+import ReactPaginate from 'react-paginate';
 import css from './Pagination.module.css';
 
-type Props = {
+interface PaginationProps {
   pageCount: number;
   forcePage: number; // 0-based
   onPageChange: (arg: { selected: number }) => void;
-};
+}
 
-const Pagination: React.FC<Props> = ({ pageCount, forcePage, onPageChange }) => {
-  const pages = Array.from({ length: pageCount }, (_, i) => i);
-
-  const goPrev = () => {
-    if (forcePage > 0) {
-      onPageChange({ selected: forcePage - 1 });
-    }
-  };
-
-  const goNext = () => {
-    if (forcePage < pageCount - 1) {
-      onPageChange({ selected: forcePage + 1 });
-    }
-  };
-
+const Pagination: React.FC<PaginationProps> = ({ pageCount, forcePage, onPageChange }) => {
   return (
-    <ul className={css.pagination}>
-      {/* Prev arrow */}
-      <li
-        className={forcePage === 0 ? css.disabled : undefined}
-        onClick={goPrev}
-        aria-disabled={forcePage === 0}
-      >
-        <a>←</a>
-      </li>
-
-      {pages.map((p) => {
-        const active = p === forcePage;
-        return (
-          <li
-            key={p}
-            className={active ? css.active : undefined}
-            onClick={() => onPageChange({ selected: p })}
-            aria-current={active ? 'page' : undefined}
-          >
-            <a>{p + 1}</a>
-          </li>
-        );
-      })}
-
-      {/* Next arrow */}
-      <li
-        className={forcePage === pageCount - 1 ? css.disabled : undefined}
-        onClick={goNext}
-        aria-disabled={forcePage === pageCount - 1}
-      >
-        <a>→</a>
-      </li>
-    </ul>
+    <ReactPaginate
+      pageCount={pageCount}
+      forcePage={forcePage}
+      onPageChange={onPageChange}
+      marginPagesDisplayed={1}
+      pageRangeDisplayed={3}
+      containerClassName={css.pagination}
+      pageClassName={css.page}
+      pageLinkClassName={css.pageLink}
+      activeClassName={css.active}
+      previousClassName={css.previous}
+      nextClassName={css.next}
+      previousLinkClassName={css.previousLink}
+      nextLinkClassName={css.nextLink}
+      disabledClassName={css.disabled}
+      breakClassName={css.break}
+      breakLinkClassName={css.breakLink}
+      previousLabel="←"
+      nextLabel="→"
+      breakLabel="..."
+    />
   );
 };
 

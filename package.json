@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.84.1",
+    "@types/react-paginate": "^7.1.4",
     "@vitejs/plugin-react": "^4.7.0",
     "axios": "^1.11.0",
     "formik": "^2.4.6",
@@ -26,6 +27,6 @@
     "react-paginate": "^8.3.0",
     "react-toastify": "^11.0.5",
     "use-debounce": "^10.0.5",
-    "yup": "^1.6.1"
+    "yup": "^1.7.0"
   }
 }
